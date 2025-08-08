@@ -1,3 +1,4 @@
+// Effective Attendance Verification 
 
 use serde::Deserialize;
 use std::error::Error;
