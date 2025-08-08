@@ -1,0 +1,232 @@
+// Lecture 1 
+
+/* fn main() {
+    println!("Hello, Ruby Gonzalez!");
+} */
+// cargo: pkg mng tool
+    // cargo new
+        //src -> main.rs -> fn main(){} println!()}
+            //toml
+    // compiler: rustc
+    //debug file:
+        // executes in debug mode 
+
+// Subimission for Assignment: Tuesday by Midnight
+    // Github Project
+        // 1. Screenshots: shows name
+                // cargo run
+     // 2. Git add folder, commit "My first assignment", Git push
+         // Git add my_project
+             // Provide Github link
+             // Only push my project (not class materials)
+
+
+
+// Lecture 2 
+
+/*fn main(){
+    let /* mut */ x = 5;
+        // let x:i32 = 5;
+        // let x = 5i32;
+
+        //x += 1;
+        // let x + x + +5;
+        {
+        let x = format!("{x} + 15");
+          println!("{}",x);
+        }
+
+        println!("{}",x);
+} */
+
+ /* fn main(){
+    let x = 5;
+
+    {
+        //let x = format!("{x} + 15");
+        let x = x + 15;
+         println!("{}",x);
+    }
+    
+
+} */
+
+
+/* fn main(){
+    let mut x:u8 = 0; //0..255 should be positive
+    x -= 1;
+    println!("{}", x);
+    
+} */
+
+/* fn main(){
+    // Creating a tuple
+    let tup: (i32, f64, u8, _) = (500, 6.4, 1, "john");
+    
+    // Destructuring (pattern matching)
+    let (x, y, z, _) = tup;
+    println!("x: {}, y: {}, z: {}", x, y, z);
+    
+    // Accessing tuple elements using dot notation
+    println!("First: {}, Second: {}, Third: {}", tup.0, tup.1, tup.2);
+
+    // Tuple as a return type
+    //let (product, sum) = calculate(3, 4);
+    //println!("Product: {}, Sum: {}", product, sum);
+} */
+
+/* fn calculate(x:i32, y:i32) -> (i32, i32){
+    //let product = x*y;
+    //let sum = x + y;
+    //let tup = (x*y,x+y);
+    //let tup;
+    //retun ;
+    (x*y,x+y)
+
+}
+
+
+fn main(){
+    // Tuple as a return type
+    let (product, sum) = calculate(3, 4);
+    println!("Product: {}, Sum: {}", product, sum);
+} */
+
+/* fn calculate(x:i32) -> u8{
+    x as u8 - 101
+    
+}
+
+fn main() {
+    // Tuple as a return type
+    let total = calculate(100);
+    println!("{}", total);
+} */
+
+
+
+/* fn isAdult(age:u8) -> String {
+    
+    match age > 18{
+        true => "Adult".to_string(),
+        false => "Kid".to_string(),
+    }
+}
+
+fn main() {
+   /* let num = 3;
+    let letter = match num {
+        1 => 'A',
+        2 => 'B',
+        3 => 'C',
+            (64 + 1 + 2 as u8) as char
+        },
+         _ => '#', // rust will not guess
+    };
+    println!("{}", letter); */
+
+    println!("{:?}", isAdult(15));
+    println!("{:?}", isAdult(20));
+
+} */
+
+/*
+const FREEZING_POINT_F: f64 = 32.0;
+
+fn fahrenheit_to_celsius(f: f64) -> f64 {
+    (f - FREEZING_POINT_F) * 5.0 / 9.0
+}
+
+fn celsius_to_fahrenheit(c: f64) -> f64 {
+    c * 9.0 / 5.0 + FREEZING_POINT_F
+}
+
+fn main() {
+    let mut temp_f: i32 = 32; // Starting temperature in Fahrenheit
+
+    for i in 0..6 {
+        let current_f = temp_f + i;
+        let celsius = fahrenheit_to_celsius(current_f as f64);
+        println!("{current_f}°F = {:.2}°C", celsius);
+    }
+} */
+
+
+
+// Lecture 3
+
+
+/*
+fn main() {
+
+ let s = "hello_before_scope".to_string();
+    let z = s;
+    /* {
+        let s = "hello".to_string();
+        println!("{}", s);
+
+    } */
+
+    println!("{}", s);
+    println!("{}", z);
+} */
+
+
+
+/* fn word_enhancer(mut word:String) -> String {
+    word.push_str("RGV");
+    word
+}
+
+fn main(){
+    let mut s = "UT".to_string();
+    s = word_enhancer(s);
+    println!("{}", s);
+} */
+
+
+
+fn concat_strings(s1: &String, s2: &String) -> String {
+    // Your code here
+}
+
+fn main() {
+  let s1 = String::from("Hello, ");
+    let s2 = String::from("World!");
+    let result = concat_strings(&s1, &s2);
+    println!("{}", result); // Should print: "Hello, World!"
+
+}
+
+
+
+// Lecture 4 
+
+use std::arch::asm;
+
+fn main() {
+    let message = b"Hello, direct syscall!\n";
+
+    unsafe {
+        // write syscall
+        asm!(
+            "mov rax, 1",  // syscall number for write
+            "mov rdi, 1",  // file descriptor: 1 is stdout
+            "syscall",
+            in("rsi") message.as_ptr(),
+            in("rdx") message.len(),
+            out("rax") _,
+            out("rcx") _,
+            out("r11") _,
+            clobber_abi("system")
+        );
+
+        // exit syscall
+        asm!(
+            "mov rax, 60", // syscall number for exit
+            "xor rdi, rdi", // status code 0
+            "syscall",
+            options(noreturn)
+        );
+    }
+}
